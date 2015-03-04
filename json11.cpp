@@ -376,26 +376,29 @@ struct JsonParser {
      *
      * Encode pt as UTF-8 and add it to out.
      */
-    void encode_utf8(long pt, string & out) {
-        if (pt < 0)
-            return;
+	void encode_utf8(long pt, string & out) {
+		if (pt < 0)
+			return;
 
-        if (pt < 0x80) {
-            out += pt;
-        } else if (pt < 0x800) {
-            out += (pt >> 6) | 0xC0;
-            out += (pt & 0x3F) | 0x80;
-        } else if (pt < 0x10000) {
-            out += (pt >> 12) | 0xE0;
-            out += ((pt >> 6) & 0x3F) | 0x80;
-            out += (pt & 0x3F) | 0x80;
-        } else {
-            out += (pt >> 18) | 0xF0;
-            out += ((pt >> 12) & 0x3F) | 0x80;
-            out += ((pt >> 6) & 0x3F) | 0x80;
-            out += (pt & 0x3F) | 0x80;
-        }
-    }
+		if (pt < 0x80) {
+			out += static_cast<char>(pt);
+		}
+		else if (pt < 0x800) {
+			out += static_cast<char>((pt >> 6) | 0xC0);
+			out += static_cast<char>((pt & 0x3F) | 0x80);
+		}
+		else if (pt < 0x10000) {
+			out += static_cast<char>((pt >> 12) | 0xE0);
+			out += static_cast<char>(((pt >> 6) & 0x3F) | 0x80);
+			out += static_cast<char>((pt & 0x3F) | 0x80);
+		}
+		else {
+			out += static_cast<char>((pt >> 18) | 0xF0);
+			out += static_cast<char>(((pt >> 12) & 0x3F) | 0x80);
+			out += static_cast<char>(((pt >> 6) & 0x3F) | 0x80);
+			out += static_cast<char>((pt & 0x3F) | 0x80);
+		}
+	}
 
     /* parse_string()
      *
